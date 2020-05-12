@@ -12,6 +12,13 @@
                 <el-table-column prop="id" label="编号" width="56"></el-table-column>
                 <el-table-column prop="name" label="职位名称" width="180"></el-table-column>
                 <el-table-column prop="createdate" label="创建时间" width="200"></el-table-column>
+                <el-table-column
+                        label="是否启用">
+                    <template slot-scope="scope">
+                        <el-tag size="small" type="success" v-if="scope.row.enabled">已启用</el-tag>
+                        <el-tag size="small" type="danger" v-else>未启用</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="showEditDialog(scope.$index, scope.row)">编辑</el-button>
@@ -30,6 +37,14 @@
                 <el-tag>职位名称</el-tag>
                 <el-input class="update_input" size="small" v-model="updatePos.name"></el-input>
             </div>
+            <div>
+                <el-tag>是否启用</el-tag>
+                <el-switch
+                        v-model="updatePos.enabled"
+                        active-text="启用"
+                        inactive-text="禁用">
+                </el-switch>
+            </div>
             <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="doUpdate" size="small">确 定</el-button>
@@ -44,11 +59,12 @@
         data() {
             return {
                 pos: {
-                    name: ''
+                    name: '',
                 },
                 positions: [],
                 updatePos: {
-                    name: ''
+                    name: '',
+                    enabled:true
                 },
                 dialogVisible: false,
                 multipleSelection: []
@@ -86,6 +102,7 @@
                 if (resp) {
                     this.initPositions()
                     this.updatePos.name = ''
+                    this.updatePos.enabled=true
                     this.dialogVisible = false
                 }
             },

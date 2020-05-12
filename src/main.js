@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import './plugins/axios'
 import store from './store'
 import './plugins/element.js'
 import { initMenu } from './utils/menus'
